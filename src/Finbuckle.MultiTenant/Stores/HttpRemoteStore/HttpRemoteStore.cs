@@ -33,7 +33,7 @@ public class HttpRemoteStore<TTenantInfo> : IMultiTenantStore<TTenantInfo>
     public HttpRemoteStore(HttpRemoteStoreClient<TTenantInfo> client, string endpointTemplate)
     {
         _client = client ?? throw new ArgumentNullException(nameof(client));
-        
+
         //
         // Commented out as adding the identifier later so can pull all tenants.
         //
@@ -45,7 +45,10 @@ public class HttpRemoteStore<TTenantInfo> : IMultiTenantStore<TTenantInfo>
         //        endpointTemplate += $"/{DefaultEndpointTemplateIdentifierToken}";
         //}
 
-        if (Uri.IsWellFormedUriString(endpointTemplate, UriKind.Absolute))
+
+        // This test previously checked for a false when including the DefaultEndpointTemplateIdentifierToken.
+        // Now passing base Uri only so needs to be well formed.
+        if (!Uri.IsWellFormedUriString(endpointTemplate, UriKind.Absolute))
             throw new ArgumentException("Parameter 'endpointTemplate' is not a well formed uri.",
                 nameof(endpointTemplate));
 

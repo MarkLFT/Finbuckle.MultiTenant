@@ -70,31 +70,37 @@ namespace Finbuckle.MultiTenant.Test.Stores
             Assert.Throws<ArgumentException>(() => new HttpRemoteStore<TenantInfo>(client, uri));
         }
 
-        [Fact]
-        public void AppendTenantToTemplateIfMissing()
-        {
-            var clientFactory = new Mock<IHttpClientFactory>();
-            var client = new HttpRemoteStoreClient<TenantInfo>(clientFactory.Object);
-            var store = new HttpRemoteStore<TenantInfo>(client, "http://example.com/");
+        /// <summary>
+        /// Test no longer relevant as we only pass the base path, the identifier is applied in the actual call.
+        /// </summary>
+        //[Fact]
+        //public void AppendTenantToTemplateIfMissing()
+        //{
+        //    var clientFactory = new Mock<IHttpClientFactory>();
+        //    var client = new HttpRemoteStoreClient<TenantInfo>(clientFactory.Object);
+        //    var store = new HttpRemoteStore<TenantInfo>(client, "http://example.com/");
 
-            var field = store.GetType().GetField("endpointTemplate", BindingFlags.NonPublic | BindingFlags.Instance);
-            var endpointTemplate = field?.GetValue(store);
+        //    var field = store.GetType().GetField("endpointTemplate", BindingFlags.NonPublic | BindingFlags.Instance);
+        //    var endpointTemplate = field?.GetValue(store);
 
-            Assert.Equal($"http://example.com/{HttpRemoteStore<TenantInfo>.DefaultEndpointTemplateIdentifierToken}", endpointTemplate);
-        }
+        //    Assert.Equal($"http://example.com/{HttpRemoteStore<TenantInfo>.DefaultEndpointTemplateIdentifierToken}", endpointTemplate);
+        //}
 
-        [Fact]
-        public void AppendTenantWithSlashToTemplateIfMissing()
-        {
-            var clientFactory = new Mock<IHttpClientFactory>();
-            var client = new HttpRemoteStoreClient<TenantInfo>(clientFactory.Object);
-            var store = new HttpRemoteStore<TenantInfo>(client, "http://example.com");
+        /// <summary>
+        /// Test no longer relevant as we only pass the base path, the identifier is applied in the actual call.
+        /// </summary>
+        //[Fact]
+        //public void AppendTenantWithSlashToTemplateIfMissing()
+        //{
+        //    var clientFactory = new Mock<IHttpClientFactory>();
+        //    var client = new HttpRemoteStoreClient<TenantInfo>(clientFactory.Object);
+        //    var store = new HttpRemoteStore<TenantInfo>(client, "http://example.com");
 
-            var field = store.GetType().GetField("endpointTemplate", BindingFlags.NonPublic | BindingFlags.Instance);
-            var endpointTemplate = field?.GetValue(store);
+        //    var field = store.GetType().GetField("endpointTemplate", BindingFlags.NonPublic | BindingFlags.Instance);
+        //    var endpointTemplate = field?.GetValue(store);
 
-            Assert.Equal($"http://example.com/{HttpRemoteStore<TenantInfo>.DefaultEndpointTemplateIdentifierToken}", endpointTemplate);
-        }
+        //    Assert.Equal($"http://example.com/{HttpRemoteStore<TenantInfo>.DefaultEndpointTemplateIdentifierToken}", endpointTemplate);
+        //}
 
         // Basic store functionality tested in MultiTenantStoresShould.cs
 
