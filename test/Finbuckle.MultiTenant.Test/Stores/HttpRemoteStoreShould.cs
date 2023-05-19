@@ -2,6 +2,8 @@
 // Refer to the solution LICENSE file for more inforation.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -27,6 +29,18 @@ namespace Finbuckle.MultiTenant.Test.Stores
                 {
 
                     var tenantInfo = new TenantInfo { Id = "initech-id", Identifier = "initech" };
+                    var json = JsonConvert.SerializeObject(tenantInfo);
+                    result.StatusCode = HttpStatusCode.OK;
+                    result.Content = new StringContent(json);
+                }
+                else if(numSegments < 2)
+                {
+                    var tenantInfo = new List<TenantInfo>
+                    {
+                        new TenantInfo { Id = "initech-id", Identifier = "initech" },
+                        new TenantInfo { Id = "lft-id", Identifier = "lft" }
+                    };
+
                     var json = JsonConvert.SerializeObject(tenantInfo);
                     result.StatusCode = HttpStatusCode.OK;
                     result.Content = new StringContent(json);
@@ -101,6 +115,12 @@ namespace Finbuckle.MultiTenant.Test.Stores
         // [Fact(Skip = "Not valid for this store.")]
         public override void GetTenantInfoFromStoreById()
         {
+        }
+
+        [Fact]
+        public override void GetAllTenantsFromStoreAsync()
+        {
+            base.GetAllTenantsFromStoreAsync();
         }
 
         [Fact]

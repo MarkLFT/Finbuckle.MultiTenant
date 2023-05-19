@@ -33,13 +33,17 @@ public class HttpRemoteStore<TTenantInfo> : IMultiTenantStore<TTenantInfo>
     public HttpRemoteStore(HttpRemoteStoreClient<TTenantInfo> client, string endpointTemplate)
     {
         _client = client ?? throw new ArgumentNullException(nameof(client));
-        if (!endpointTemplate.Contains(DefaultEndpointTemplateIdentifierToken))
-        {
-            if (endpointTemplate.EndsWith("/"))
-                endpointTemplate += DefaultEndpointTemplateIdentifierToken;
-            else
-                endpointTemplate += $"/{DefaultEndpointTemplateIdentifierToken}";
-        }
+        
+        //
+        // Commented out as adding the identifier later so can pull all tenants.
+        //
+        //if (!endpointTemplate.Contains(DefaultEndpointTemplateIdentifierToken))
+        //{
+        //    if (endpointTemplate.EndsWith("/"))
+        //        endpointTemplate += DefaultEndpointTemplateIdentifierToken;
+        //    else
+        //        endpointTemplate += $"/{DefaultEndpointTemplateIdentifierToken}";
+        //}
 
         if (Uri.IsWellFormedUriString(endpointTemplate, UriKind.Absolute))
             throw new ArgumentException("Parameter 'endpointTemplate' is not a well formed uri.",
@@ -71,13 +75,11 @@ public class HttpRemoteStore<TTenantInfo> : IMultiTenantStore<TTenantInfo>
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// Not implemented in this implementation.
-    /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public Task<IEnumerable<TTenantInfo>> GetAllAsync()
+    /// <inheritdoc />
+    public async Task<IEnumerable<TTenantInfo>> GetAllAsync()
     {
-        throw new NotImplementedException();
+         var result = await _client.TryGetAllAsync(endpointTemplate);
+        return result;
     }
 
     /// <inheritdoc />
